@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+
+	<New id="restAppDS" class="org.eclipse.jetty.plus.jndi.Resource">
+		<Arg></Arg>
+		<Arg>jdbc/restAppDB</Arg>
+		<Arg>
+			<New class="oracle.jdbc.pool.OracleDataSource">
+				<Set name="DriverType">thin</Set>
+				<Set name="URL">jdbc:oracle:thin:@127.0.0.1:1521:xe</Set>
+				<Set name="User">etormes</Set>
+				<Set name="Password">etormes</Set>
+				<Set name="connectionCachingEnabled">true</Set>
+				<Set name="connectionCacheProperties">
+					<New class="java.util.Properties">
+						<Call name="setProperty">
+							<Arg>InitialLimit</Arg>
+							<Arg>5</Arg>
+						</Call>
+						<Call name="setProperty">
+							<Arg>MaxLimit</Arg>
+							<Arg>20</Arg>
+						</Call>
+						<Call name="setProperty">
+							<Arg>ValidateConnection</Arg>
+							<Arg>true</Arg>
+						</Call>
+					</New>
+				</Set>
+			</New>
+		</Arg>
+	</New>
+</Configure>
