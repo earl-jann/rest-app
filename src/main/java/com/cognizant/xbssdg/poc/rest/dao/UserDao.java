@@ -12,6 +12,8 @@ import com.cognizant.xbssdg.poc.rest.entities.User;
 public interface UserDao {
 
 	public List<User> getUsers();
+	
+	public User getUserByUsername(String username);
 	/**
 	 * Returns a User given its id
 	 * 

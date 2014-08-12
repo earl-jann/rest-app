@@ -20,7 +20,8 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.cognizant.xbssdg.poc.rest.entities.User;
+import com.cognizant.xbssdg.poc.rest.resource.User;
+
 
 public class RestDemoServiceIT {
 
@@ -66,7 +67,7 @@ public class RestDemoServiceIT {
 		Builder request = webTarget.request(MediaType.APPLICATION_JSON);
 
 		Response response = request.get();
-		Assert.assertTrue(response.getStatus() == 200);
+		Assert.assertTrue(response.getStatus() == Response.Status.OK.getStatusCode());
 
 		User user = response.readEntity(User.class);
 
@@ -79,7 +80,7 @@ public class RestDemoServiceIT {
 	}
 
 	@Test
-	public void testCreateUser() throws JsonGenerationException,
+	public void testCreateAndDeleteUser() throws JsonGenerationException,
 			JsonMappingException, IOException {
 		
 		ClientConfig clientConfig = new ClientConfig();
@@ -93,15 +94,17 @@ public class RestDemoServiceIT {
         .request(MediaType.TEXT_HTML).accept(MediaType.APPLICATION_JSON)
         .post(Entity.json(user), Response.class);
 		
-		Assert.assertTrue(result.getStatus() == 201);
-//		
-//		WebTarget webTarget2 = client.target(result.getHeaderString("Location"));
-//        
-//		Builder request2 = webTarget2.request(MediaType.APPLICATION_JSON);
-//		
-//		Response response = request2.delete();
-//		
-//		Assert.assertTrue(response.getStatus() == 200);
+		Assert.assertTrue(result.getStatus() == Response.Status.CREATED.getStatusCode());
+		
+		System.out.println("New location: " + result.getHeaderString("Location"));
+		
+		WebTarget webTarget2 = client.target(result.getHeaderString("Location"));
+        
+		Response result2 = webTarget2        
+		        .request(MediaType.TEXT_HTML).accept(MediaType.APPLICATION_JSON)
+		        .delete();
+		
+		Assert.assertTrue(result2.getStatus() == Response.Status.NO_CONTENT.getStatusCode());
 		
 	}
 }

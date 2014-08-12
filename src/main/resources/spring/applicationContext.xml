@@ -32,11 +32,16 @@
         </property>
     </bean>
     	
-	<bean id="userDao" class="com.cognizant.xbssdg.poc.rest.dao.impl.UserDaoJPA2Impl"/>	
-    <bean id="userRestService" class="com.cognizant.xbssdg.poc.rest.service.UserRestService" />
+	<bean id="userDao" class="com.cognizant.xbssdg.poc.rest.dao.impl.UserDaoJPA2Impl"/>
+	<bean id="userManagementService" class="com.cognizant.xbssdg.poc.rest.service.UserManagementServiceImpl"/>
+	<bean id="userResource" class="com.cognizant.xbssdg.poc.rest.resource.UserResource"/>
+			
+    <!-- <bean id="userRestService" class="com.cognizant.xbssdg.poc.rest.service.UserRestService" />-->
         
 	<bean id="restAppDS" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">
 	    <property name="jndiName" value="java:comp/env/jdbc/restAppDB" />
 	    <property name="resourceRef" value="true" />        
 	</bean>
+	
+	<tx:annotation-driven proxy-target-class="true" />
 </beans>

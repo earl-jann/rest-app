@@ -9,7 +9,9 @@
 	<description>POC REST web services with spring, jersey and jpa2/hibernate</description>
 
 	<properties>
-		<spring.version>3.2.6.RELEASE</spring.version>
+		<spring.version>4.0.3.RELEASE</spring.version>
+		<jersey.version>2.9</jersey.version>
+		<jackson.version>1.9.13</jackson.version>
 		<hibernate.version>4.2.7.Final</hibernate.version>
 		<jetty.version>9.0.7.v20131107</jetty.version> <!-- Adapt this to a version found on http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-maven-plugin/ -->
 		<logback.version>1.1.1</logback.version>
@@ -29,8 +31,7 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-spring3</artifactId>
-			<!--  2.4.1 -->
-			<version>2.4.1</version>
+			<version>${jersey.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -49,8 +50,18 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>2.4.1</version>
+			<version>${jersey.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-entity-filtering</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>				
 
 		<!-- Spring 3 dependencies -->
 		<dependency>
@@ -120,19 +131,23 @@
 		</dependency>
 
 		<!-- testing -->
-		<!-- Jersey-client -->
+	    <!-- Jersey-client -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
-			<!-- 2.4.1 -->
-			<version>2.4.1</version>
-		</dependency>
+			<version>${jersey.version}</version>			
+		</dependency>			
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.1</version>
+		</dependency>		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -146,22 +161,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.jayway.restassured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<version>2.1.0</version>
-			<exclusions>
-				<!-- Exclude Groovy because of classpath issue -->
-				<exclusion>
-					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
 			<artifactId>jersey-test-framework-provider-external</artifactId>
-			<!--  2.5.1 -->
 			<version>2.5.1</version>
 		</dependency>
 
@@ -176,6 +177,21 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${jcloverslf4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>	
 		<!--  oracle jdbc dependency, uncomment this when not using jetty -->
 		<!-- <dependency>
 			<groupId>com.oracle</groupId>

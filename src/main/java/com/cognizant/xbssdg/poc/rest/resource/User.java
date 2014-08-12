@@ -1,38 +1,37 @@
-package com.cognizant.xbssdg.poc.rest.entities;
+package com.cognizant.xbssdg.poc.rest.resource;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.apache.commons.beanutils.BeanUtils;
+
+import com.cognizant.xbssdg.poc.rest.helper.DateISO8601Adapter;
 
 @SuppressWarnings("restriction")
-@Entity
-@Table(name = "users")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6087244364978353035L;
-	@Column(name = "first_name")
-	private String firstName;
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserSeq")
-	@SequenceGenerator(name = "UserSeq", sequenceName = "USERS_SEQ")
-	@Column(name = "user_id")
+	@XmlElement(name = "firstName")	
+	private String firstName;	
+	@XmlElement(name = "id")	
 	private Long id;
-	@Column(name = "last_name")
+	@XmlElement(name = "lastName")	
 	private String lastName;
-
-	@Column(name = "username")
+	@XmlElement(name = "username")	
 	private String username;
-
-	@Column(name = "birthdate")
+	@XmlElement(name = "birthdate")
+	@XmlJavaTypeAdapter(DateISO8601Adapter.class)
 	private Date birthdate;
 
 	public User() {
@@ -44,6 +43,18 @@ public class User implements Serializable {
 		this.username = username;
 		this.lastName = lastName;
 		this.firstName = firstName;
+	}
+
+	public User(User user) {
+		try {
+			BeanUtils.copyProperties(this, user);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getFirstName() {

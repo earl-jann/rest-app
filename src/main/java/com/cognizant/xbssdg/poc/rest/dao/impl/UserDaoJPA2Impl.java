@@ -65,5 +65,17 @@ public class UserDaoJPA2Impl implements UserDao {
 		query.executeUpdate();
 	}
 
+	public User getUserByUsername(String username) {
+		try {
+			String qlString = "SELECT p FROM User p WHERE p.username = ?1";
+			TypedQuery<User> query = entityManager.createQuery(qlString, User.class);		
+			query.setParameter(1, username);
+
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
 }
 
